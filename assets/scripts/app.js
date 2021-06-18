@@ -4,6 +4,12 @@ const backDrop = document.getElementById("backdrop");
 const modalAddMovie = document.querySelector(".btn.btn--success");
 let myMovieList = [];
 
+const removeSection = _ =>{
+    if(myMovieList.length > 0){
+        document.getElementById('entry-text').style.display = 'none';
+    }
+}
+
 const toggleBackDrop = (_) => {
   backDrop.style.display = "block";
 };
@@ -35,14 +41,19 @@ const modalAddMovieAction = (_) => {
   const movieTitle = document.querySelector("input#title").value.trim();
   const imageUrl = document.querySelector("input#image-url").value.trim();
   const rating = document.querySelector("input#rating").valueAsNumber;
-  if (movieTitle === "" || imageUrl === "" || rating > 5 || rating < 1) {
+  if (isNaN(rating)) {
     alert("Enter Valid Values");
   } else {
-    let newMovie = { title: movieTitle, url: imageUrl, rate: rating };
-    myMovieList.push(newMovie);
+    if (movieTitle === "" || imageUrl === "" || rating > 5 || rating < 1) {
+      alert("Enter Valid Values");
+    } else {
+      let newMovie = { title: movieTitle, url: imageUrl, rate: rating };
+      myMovieList.push(newMovie);
 
-    cancelClickAction();
-    clearInputValue();
+      cancelClickAction();
+      clearInputValue();
+      removeSection();
+    }
   }
 };
 

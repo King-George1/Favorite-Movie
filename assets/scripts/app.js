@@ -4,14 +4,30 @@ const backDrop = document.getElementById("backdrop");
 const modalAddMovie = document.querySelector(".btn.btn--success");
 let myMovieList = [];
 
-const removeSection = _ =>{
-    if(myMovieList.length > 0){
-        document.getElementById('entry-text').style.display = 'none';
-    }
-}
+const renderMovies = (title, url, rating) => {
+  const newMovie = document.createElement("li");
+  newMovie.className = "movie-element";
+  newMovie.innerHTML = `
+    <div class="movie-element__image">
+      <img src="${url}" alt="${title}">
+    </div>
+    <div class="movie-element__info">
+      <h2>${title}</h2>
+      <p>${rating}/5 stars</p>
+    </div>
+    `;
+  document.getElementById("movie-list").appendChild(newMovie);
+};
+
+const removeSection = (_) => {
+  if (myMovieList.length > 0) {
+    document.getElementById("entry-text").style.display = "none";
+  }
+};
 
 const toggleBackDrop = (_) => {
-  backDrop.style.display = "block";
+  //   backDrop.style.display = "block";
+  backDrop.classList.toggle("visible");
 };
 
 const clearInputValue = (_) => {
@@ -23,13 +39,16 @@ const clearInputValue = (_) => {
 const cancelClickAction = (_) => {
   addMovieModal.classList.toggle("visible");
   clearInputValue();
-  backDrop.style.display = "none";
+  //   backDrop.style.display = "none";
+  backDrop.classList.toggle("visible");
 };
 
 const backdropClickAction = (_) => {
-  //Not Implemented
+  console.log("hello George");
   addMovieModal.classList.toggle("visible");
-  backDrop.style.display = "none";
+  //   backDrop.style.display = "none";
+  clearInputValue();
+  backDrop.classList.toggle("visible");
 };
 
 const handleAddMovie = () => {
@@ -53,6 +72,7 @@ const modalAddMovieAction = (_) => {
       cancelClickAction();
       clearInputValue();
       removeSection();
+      renderMovies(movieTitle, imageUrl, rating);
     }
   }
 };
@@ -61,5 +81,5 @@ addMovie.addEventListener("click", handleAddMovie, false);
 document
   .querySelector(".btn.btn--passive")
   .addEventListener("click", cancelClickAction, false);
-backDrop.addEventListener("click", backdropClickAction, false);
+backDrop.addEventListener("click", backdropClickAction);
 modalAddMovie.addEventListener("click", modalAddMovieAction, false);
